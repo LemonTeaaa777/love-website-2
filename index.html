@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With Love, For You 🌸</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="petals-loader">
+        <span>🌸</span><span>🌺</span><span>🌸</span>
+      </div>
+      <p class="loading-text">opening for you...</p>
+    </div>
+  </div>
+
+  <!-- Bunga berjatuhan di seluruh halaman -->
+  <div id="petal-container"></div>
+
+  <div id="music-player">
+    <button id="music-btn">🎵</button>
+    <audio id="bg-audio" loop src="/music/song.wav"></audio>
+  </div>
+
+  <main id="app"></main>
+
+  <script>
+    // ── Music ──
+    const btn = document.getElementById('music-btn');
+    const audio = document.getElementById('bg-audio');
+    let playing = false;
+    btn.addEventListener('click', () => {
+      if (playing) {
+        audio.pause();
+        btn.textContent = '🎵';
+        btn.classList.remove('playing');
+      } else {
+        audio.play().catch(e => console.log(e));
+        btn.textContent = '🎶';
+        btn.classList.add('playing');
+      }
+      playing = !playing;
+    });
+
+    // ── Falling petals ──
+    const container = document.getElementById('petal-container');
+    const petals = ['🌸','🌺','🌼','🌷','🌹','🪷','✿','❀'];
+
+    function createPetal() {
+      const p = document.createElement('span');
+      p.classList.add('falling-petal');
+      p.textContent = petals[Math.floor(Math.random() * petals.length)];
+      p.style.left = `${Math.random() * 100}vw`;
+      p.style.fontSize = `${0.8 + Math.random() * 1.2}rem`;
+      const duration = 6 + Math.random() * 10;
+      p.style.animationDuration = `${duration}s`;
+      p.style.animationDelay = `${Math.random() * 5}s`;
+      container.appendChild(p);
+      setTimeout(() => p.remove(), (duration + 5) * 1000);
+    }
+
+    // Buat 20 petal awal
+    for (let i = 0; i < 20; i++) createPetal();
+    // Tambah terus setiap 800ms
+    setInterval(createPetal, 800);
+  </script>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
